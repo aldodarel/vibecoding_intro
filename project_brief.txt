@@ -1,0 +1,5 @@
+Pada tahap ini saya belajar melihat POV dari seorang developer baik junior maupun senior. Disini saya belajar bahwa AI tidak membantu dalam merancang arsitektur, tidak memahami konteks bisnis yang spesifik, kita sendiri lah yang menganalisis dan menemukan permasalahan yang jelas untuk diselesaikan, bukan AI. AI digunakan efektif untuk fase coding, tugas berulang, dan debugging untuk partner brainstorm kemungkinan penyebab sebuah bug.
+
+Lalu kalau terjadi error, biasakan baca errornya agar terbiasa dan lebih cepat, bukan langsung tanya AI. Karena developer yang bisa debug sendiri jauh lebih bernilai dari yag selalu butuh bantuan orang lain untuk setiap error.
+
+Commit bukan Ketika satu fitur selesai, yang penting lebih sering commit untuk progress yang berarti.
