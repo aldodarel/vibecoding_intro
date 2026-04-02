@@ -1,0 +1,2 @@
+Yang saya bangun adalah form inventori sederhana berbasis react.js dengan vite. Form ini juga dilengkapi dengan validasi dan fungsi submit. 
+Prompt yang menghasilkan output yang bagus adalah prompt yang mengikuti kerangka Konteks, Task, Constraint, dan Format yang clear dan sesuai kebutuhan.

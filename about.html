@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tentang — Kalkulator Harga & Diskon</title>
+  <style>
+    :root {
+      --bg: #f4f6f8;
+      --card: #fff;
+      --text: #1a1a1a;
+      --muted: #5c6570;
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+      --border: #e2e8f0;
+      --success: #059669;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .wrap {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem;
+    }
+    h1 {
+      font-size: 1.5rem;
+      margin: 0 0 0.5rem;
+    }
+    .lead {
+      color: var(--muted);
+      margin: 0 0 2rem;
+      font-size: 0.95rem;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    }
+    .card h2 {
+      font-size: 1.1rem;
+      margin: 0 0 1rem;
+    }
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+      color: var(--muted);
+    }
+    .field {
+      margin-bottom: 1rem;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 0.65rem 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    input[type="number"]:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 1px;
+      border-color: var(--accent);
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    @media (max-width: 480px) {
+      .row {
+        grid-template-columns: 1fr;
+      }
+    }
+    button {
+      width: 100%;
+      margin-top: 0.25rem;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      background: var(--accent);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: var(--accent-hover);
+    }
+    button:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+    .hasil {
+      margin-top: 1.25rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.95rem;
+    }
+    .hasil dl {
+      margin: 0;
+      display: grid;
+      gap: 0.5rem;
+    }
+    .hasil dt {
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .hasil dd {
+      margin: 0;
+      font-weight: 600;
+      text-align: right;
+    }
+    .hasil .baris {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+    }
+    .hasil .total {
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px dashed var(--border);
+      font-size: 1.1rem;
+    }
+    .hasil .total dd {
+      color: var(--success);
+      font-size: 1.2rem;
+    }
+    .pesan-error {
+      margin-top: 0.75rem;
+      padding: 0.5rem 0.75rem;
+      background: #fef2f2;
+      color: #b91c1c;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      display: none;
+    }
+    .pesan-error.tampil {
+      display: block;
+    }
+    footer {
+      margin-top: 2rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Tentang halaman ini</h1>
+    <p class="lead">
+      Halaman contoh untuk menghitung total harga setelah diskon. Isi harga,
+      jumlah, dan persentase diskon lalu tekan hitung atau ubah angka untuk
+      memperbarui otomatis.
+    </p>
+
+    <div class="card">
+      <h2>Kalkulator total &amp; diskon</h2>
+
+      <div class="field">
+        <label for="harga">Harga satuan (Rp)</label>
+        <input
+          type="number"
+          id="harga"
+          min="0"
+          step="100"
+          placeholder="contoh: 50000"
+          value="50000"
+        />
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="jumlah">Jumlah</label>
+          <input type="number" id="jumlah" min="1" step="1" value="1" />
+        </div>
+        <div class="field">
+          <label for="diskon">Diskon (%)</label>
+          <input
+            type="number"
+            id="diskon"
+            min="0"
+            max="100"
+            step="0.5"
+            placeholder="0–100"
+            value="10"
+          />
+        </div>
+      </div>
+
+      <button type="button" id="btnHitung">Hitung</button>
+
+      <p id="pesanError" class="pesan-error" role="alert"></p>
+
+      <div class="hasil" id="hasil" aria-live="polite">
+        <dl>
+          <div class="baris">
+            <dt>Subtotal</dt>
+            <dd id="outSubtotal">—</dd>
+          </div>
+          <div class="baris">
+            <dt>Potongan diskon</dt>
+            <dd id="outDiskon">—</dd>
+          </div>
+          <div class="baris total">
+            <dt>Total bayar</dt>
+            <dd id="outTotal">—</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+
+    <footer>Project pembelajaran — vibecoding BWA</footer>
+  </div>
+
+  <script>
+    (function () {
+      const elHarga = document.getElementById("harga");
+      const elJumlah = document.getElementById("jumlah");
+      const elDiskon = document.getElementById("diskon");
+      const btnHitung = document.getElementById("btnHitung");
+      const pesanError = document.getElementById("pesanError");
+      const outSubtotal = document.getElementById("outSubtotal");
+      const outDiskon = document.getElementById("outDiskon");
+      const outTotal = document.getElementById("outTotal");
+
+      function formatRupiah(angka) {
+        return new Intl.NumberFormat("id-ID", {
+          style: "currency",
+          currency: "IDR",
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
+        }).format(angka);
+      }
+
+      /**
+       * Menghitung subtotal, nilai diskon, dan total setelah diskon.
+       * @param {number} hargaSatuan — harga per unit (≥ 0)
+       * @param {number} jumlah — banyak item (≥ 1)
+       * @param {number} persenDiskon — diskon 0–100
+       * @returns {{ subtotal: number, nilaiDiskon: number, total: number }}
+       */
+      function hitungTotalDenganDiskon(hargaSatuan, jumlah, persenDiskon) {
+        const subtotal = hargaSatuan * jumlah;
+        const potongan = subtotal * (persenDiskon / 100);
+        const total = subtotal - potongan;
+        return {
+          subtotal,
+          nilaiDiskon: potongan,
+          total,
+        };
+      }
+
+      function sembunyikanError() {
+        pesanError.textContent = "";
+        pesanError.classList.remove("tampil");
+      }
+
+      function tampilkanError(teks) {
+        pesanError.textContent = teks;
+        pesanError.classList.add("tampil");
+      }
+
+      function proses() {
+        sembunyikanError();
+
+        const harga = Number(elHarga.value);
+        const jumlah = Number(elJumlah.value);
+        const diskon = Number(elDiskon.value);
+
+        if (!Number.isFinite(harga) || harga < 0) {
+          tampilkanError("Harga satuan harus angka ≥ 0.");
+          return;
+        }
+        if (!Number.isFinite(jumlah) || jumlah < 1 || !Number.isInteger(jumlah)) {
+          tampilkanError("Jumlah harus bilangan bulat ≥ 1.");
+          return;
+        }
+        if (!Number.isFinite(diskon) || diskon < 0 || diskon > 100) {
+          tampilkanError("Diskon harus antara 0 dan 100%.");
+          return;
+        }
+
+        const { subtotal, nilaiDiskon, total } = hitungTotalDenganDiskon(
+          harga,
+          jumlah,
+          diskon
+        );
+
+        outSubtotal.textContent = formatRupiah(subtotal);
+        outDiskon.textContent = "-" + formatRupiah(nilaiDiskon);
+        outTotal.textContent = formatRupiah(total);
+      }
+
+      btnHitung.addEventListener("click", proses);
+      [elHarga, elJumlah, elDiskon].forEach(function (el) {
+        el.addEventListener("input", proses);
+        el.addEventListener("change", proses);
+      });
+
+      proses();
+    })();
+  </script>
+</body>
+</html>
