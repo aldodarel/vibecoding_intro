@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body,
+html {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+@layer base {
+    :root {
+        --background: 210 40% 98%;
+        --foreground: 215 35% 17%;
+        --card: 0 0% 100%;
+        --card-foreground: 215 35% 17%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 215 35% 17%;
+        --primary: 199 89% 48%;
+        --primary-foreground: 0 0% 100%;
+        --secondary: 199 85% 94%;
+        --secondary-foreground: 201 80% 28%;
+        --muted: 200 30% 96%;
+        --muted-foreground: 203 20% 40%;
+        --accent: 196 85% 92%;
+        --accent-foreground: 201 80% 25%;
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 200 35% 88%;
+        --input: 200 35% 88%;
+        --ring: 199 89% 48%;
+        --chart-1: 199 89% 48%;
+        --chart-2: 198 93% 60%;
+        --chart-3: 201 96% 32%;
+        --chart-4: 199 95% 74%;
+        --chart-5: 203 77% 45%;
+        --radius: 0.5rem;
+        --sidebar-background: 198 70% 97%;
+        --sidebar-foreground: 201 45% 24%;
+        --sidebar-primary: 199 89% 48%;
+        --sidebar-primary-foreground: 0 0% 100%;
+        --sidebar-accent: 198 75% 92%;
+        --sidebar-accent-foreground: 201 80% 25%;
+        --sidebar-border: 200 35% 86%;
+        --sidebar-ring: 199 89% 48%;
+    }
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+
+    body {
+        @apply bg-background text-foreground;
+    }
+}
