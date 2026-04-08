@@ -9,8 +9,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('owner')
     ->middleware(['auth', 'owner'])
+    ->name('owner.')
     ->group(function (): void {
-        Route::get('dashboard', [DashboardController::class, 'index'])->name('owner.dashboard');
+        Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('properties', PropertyController::class);
         Route::resource('units', UnitController::class);
         Route::resource('renters', RenterController::class);
