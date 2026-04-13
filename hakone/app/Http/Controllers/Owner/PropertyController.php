@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Owner\StorePropertyRequest;
+use App\Http\Requests\Owner\UpdatePropertyRequest;
 use App\Models\PropertyType;
 use App\Services\PropertyService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -14,21 +17,20 @@ class PropertyController extends Controller
 {
     public function __construct(
         private readonly PropertyService $propertyService,
-    ) {
-    }
+    ) {}
 
     public function index(Request $request): Response
-{
-    $properties = $this->propertyService->getAllByOwner(
-        ownerId: auth()->id(),
-        search: $request->get('search'),
-    );
+    {
+        $properties = $this->propertyService->getAllByOwner(
+            ownerId: Auth::id(),
+            search: $request->get('search'),
+        );
 
-    return Inertia::render('owner/properties/index', [
-        'properties' => $properties,
-        'filters' => $request->only(['search']),
-    ]);
-}
+        return Inertia::render('owner/properties/index', [
+            'properties' => $properties,
+            'filters' => $request->only(['search']),
+        ]);
+    }
 
 
     public function create(): Response
@@ -38,11 +40,11 @@ class PropertyController extends Controller
         ]);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(StorePropertyRequest $request): RedirectResponse
     {
-        $ownerId = (int) auth()->id();
+        $ownerId = (int) Auth::id();
 
-        $this->propertyService->create($request->all(), $ownerId);
+        $this->propertyService->create($request->validated(), $ownerId);
 
         return redirect()->route('owner.properties.index')
             ->with('success', 'Properti berhasil ditambahkan.');
@@ -50,7 +52,7 @@ class PropertyController extends Controller
 
     public function show(int $id): Response
     {
-        $ownerId = (int) auth()->id();
+        $ownerId = (int) Auth::id();
         $property = $this->propertyService->findByOwner($id, $ownerId);
 
         return Inertia::render('owner/properties/show', [
@@ -60,7 +62,7 @@ class PropertyController extends Controller
 
     public function edit(int $id): Response
     {
-        $ownerId = (int) auth()->id();
+        $ownerId = (int) Auth::id();
         $property = $this->propertyService->findByOwner($id, $ownerId);
 
         return Inertia::render('owner/properties/edit', [
@@ -69,12 +71,12 @@ class PropertyController extends Controller
         ]);
     }
 
-    public function update(Request $request, int $id): RedirectResponse
+    public function update(UpdatePropertyRequest $request, int $id): RedirectResponse
     {
-        $ownerId = (int) auth()->id();
+        $ownerId = (int) Auth::id();
         $property = $this->propertyService->findByOwner($id, $ownerId);
 
-        $this->propertyService->update($property, $request->all());
+        $this->propertyService->update($property, $request->validated());
 
         return redirect()->route('owner.properties.index')
             ->with('success', 'Properti berhasil diperbarui.');
@@ -82,7 +84,7 @@ class PropertyController extends Controller
 
     public function destroy(int $id): RedirectResponse
     {
-        $ownerId = (int) auth()->id();
+        $ownerId = (int) Auth::id();
         $property = $this->propertyService->findByOwner($id, $ownerId);
 
         $this->propertyService->delete($property);
