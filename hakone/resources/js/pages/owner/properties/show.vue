@@ -55,6 +55,11 @@ const statusClasses = computed(() => {
                 <Link :href="route('owner.properties.index')">
                     <Button class="rounded-md">Kembali</Button>
                 </Link>
+                <Button as-child>
+                    <Link :href="route('owner.properties.units.index', property.id)">
+                        Kelola Units
+                    </Link>
+                </Button>
             </div>
         </div>
 
@@ -132,5 +137,6 @@ const statusClasses = computed(() => {
                 </CardContent>
             </Card>
         </div>
+
     </div>
 </template>

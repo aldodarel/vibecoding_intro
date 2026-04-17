@@ -45,9 +45,11 @@ const handleImageChange = (event: Event) => {
     reader.readAsDataURL(file);
 };
 
-const submit = () => {
-    form.put(route('owner.properties.update', props.property.id), {
+const submit = (): void => {
+    form.submit('patch', route('owner.properties.update', props.property.id), {
         forceFormData: true,
+        preserveState: false,
+        preserveScroll: false,
     });
 };
 </script>
@@ -67,14 +69,15 @@ const submit = () => {
             </Link>
         </div>
 
-        <Card>
-            <CardHeader>
-                <CardTitle>Form Edit Property</CardTitle>
-                <CardDescription>Ubah data property dan simpan perubahan.</CardDescription>
-            </CardHeader>
+        <form @submit.prevent="submit">
+            <Card>
+                <CardHeader>
+                    <CardTitle>Form Edit Property</CardTitle>
+                    <CardDescription>Ubah data property dan simpan perubahan.</CardDescription>
+                </CardHeader>
 
-            <CardContent class="space-y-6">
-                <div class="grid gap-6 sm:grid-cols-2">
+                <CardContent class="space-y-6">
+                    <div class="grid gap-6 sm:grid-cols-2">
                     <div class="space-y-2">
                         <Label for="name">Nama Property</Label>
                         <Input id="name" v-model="form.name" placeholder="Masukkan nama property" />
@@ -95,7 +98,7 @@ const submit = () => {
                     <div class="sm:col-span-2 space-y-2">
                         <Label for="address">Alamat</Label>
                         <textarea id="address" v-model="form.address" rows="3" placeholder="Masukkan alamat lengkap"
-                            class="min-h-[96px] w-full rounded-md border border-input bg-background px-3 py-2 text-base text-slate-900 outline-none transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm" />
+                            class="min-h-[96px] w-full rounded-md border border-input bg-background px-3 py-2 text-base text-slate-900 outline-none transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"></textarea>
                         <InputError :message="form.errors.address" />
                     </div>
 
@@ -119,7 +122,7 @@ const submit = () => {
                         <Label for="description">Deskripsi</Label>
                         <textarea id="description" v-model="form.description" rows="4"
                             placeholder="Tambahkan deskripsi property (opsional)"
-                            class="min-h-[128px] w-full rounded-md border border-input bg-background px-3 py-2 text-base text-slate-900 outline-none transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm" />
+                            class="min-h-[128px] w-full rounded-md border border-input bg-background px-3 py-2 text-base text-slate-900 outline-none transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"></textarea>
                         <InputError :message="form.errors.description" />
                     </div>
 
@@ -145,7 +148,7 @@ const submit = () => {
                     <Link :href="route('owner.properties.index')" class="w-full sm:w-auto">
                         <Button variant="outline" class="w-full sm:w-auto">Batal</Button>
                     </Link>
-                    <Button type="button" class="w-full sm:w-auto" :disabled="form.processing" @click="submit">
+                    <Button type="submit" class="w-full sm:w-auto" :disabled="form.processing">
                         <span v-if="form.processing"
                             class="mr-2 inline-block h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></span>
                         Simpan Perubahan
@@ -153,5 +156,6 @@ const submit = () => {
                 </div>
             </CardContent>
         </Card>
+        </form>
     </div>
 </template>
